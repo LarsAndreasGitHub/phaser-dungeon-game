@@ -1,34 +1,28 @@
-import 'phaser';
+import Phaser from 'phaser';
+import {GameScene} from "./GameScene";
 
-var config = {
-    type: Phaser.AUTO,
-    parent: 'phaser-example',
+const config = {
+    title: "Dungeon",
     width: 800,
-    height: 600,
-    scene: {
-        preload: preload,
-        create: create
-    }
+    height: 800,
+    type: Phaser.AUTO,
+    parent: "game",
+    scene: [GameScene],
+    input: {
+        keyboard: true,
+        mouse: false,
+        touch: false,
+        gamepad: false
+    },
+    backgroundColor: "#000000"
 };
 
-var game = new Phaser.Game(config);
-
-function preload ()
-{
-    this.load.image('logo', 'assets/logo.png');
+export class Game extends Phaser.Game {
+    constructor(config) {
+        super(config);
+    }
 }
 
-function create ()
-{
-    var logo = this.add.image(400, 150, 'logo');
-
-    this.tweens.add({
-        targets: logo,
-        y: 450,
-        duration: 2000,
-        ease: 'Power2',
-        yoyo: true,
-        loop: -1
-    });
-
-}
+window.onload = () => {
+    var game = new Game(config);
+};
