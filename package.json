@@ -14,7 +14,6 @@
   "author": "Steffen Hageland",
   "license": "MIT",
   "devDependencies": {
-    "raw-loader": "^1.0.0",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "webpack": "^4.20.0",

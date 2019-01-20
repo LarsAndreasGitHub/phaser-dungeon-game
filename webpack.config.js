@@ -15,10 +15,6 @@ module.exports = {
     module: {
         rules: [
           {
-            test: [ /\.vert$/, /\.frag$/ ],
-            use: 'raw-loader'
-          },
-          {
             test: [ /\.ts$/ ],
             use: 'ts-loader',
             exclude: /node_modules/
@@ -26,7 +22,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.js', '.vert', '.frag']
+        extensions: ['.ts', '.js']
     },
     plugins: [
         new webpack.DefinePlugin({
