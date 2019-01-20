@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import {GameScene} from "./GameScene";
 
-const config = {
+const config: GameConfig = {
     title: "Dungeon",
     width: 800,
     height: 800,
@@ -18,11 +18,11 @@ const config = {
 };
 
 export class Game extends Phaser.Game {
-    constructor(config) {
+    constructor(config: GameConfig) {
         super(config);
     }
 }
 
 window.onload = () => {
-    var game = new Game(config);
+    const game = new Game(config);
 };

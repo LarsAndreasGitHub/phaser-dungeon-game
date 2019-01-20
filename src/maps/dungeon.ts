@@ -1,8 +1,10 @@
-export const CellType = {
-    WALL: 1, SPACE: 2
-};
+export enum CellType {
+    WALL, SPACE
+}
 
-export function getInitialChunk(size, wallChance) {
+export type GameChunk = CellType[][];
+
+export function getInitialChunk(size: number, wallChance: number): GameChunk {
     const map = [];
     for (let x=0; x<size; x++) {
         const row = [];
@@ -14,7 +16,7 @@ export function getInitialChunk(size, wallChance) {
     return map;
 }
 
-export function iterateChunk(chunk, birthLimit, deathLimit) {
+export function iterateChunk(chunk: GameChunk, birthLimit: number, deathLimit: number): GameChunk {
     return chunk.map((row, x) => row.map((cell, y) => {
         const wallsAround = getNumWallsAroundCell(chunk, x, y);
         if (wallsAround > deathLimit) {
@@ -26,7 +28,7 @@ export function iterateChunk(chunk, birthLimit, deathLimit) {
     }));
 }
 
-function getNumWallsAroundCell(chunk, x, y) {
+function getNumWallsAroundCell(chunk: GameChunk, x: number, y: number) {
     let numWalls = 0 ;
     for (let x2 = x-1; x2 <= x+1; x2++) {
         for (let y2 = y-1; y2 <= y+1; y2++) {
