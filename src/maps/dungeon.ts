@@ -9,7 +9,7 @@ export function getInitialChunk(size: number, wallChance: number): GameChunk {
     for (let x=0; x<size; x++) {
         const row = [];
         for (let y=0; y<size; y++) {
-           row.push(Math.random() <= wallChance ? CellType.SPACE : CellType.WALL);
+           row.push(Math.random() <= wallChance ? CellType.WALL : CellType.SPACE);
         }
         map.push(row);
     }
@@ -19,9 +19,9 @@ export function getInitialChunk(size: number, wallChance: number): GameChunk {
 export function iterateChunk(chunk: GameChunk, birthLimit: number, deathLimit: number): GameChunk {
     return chunk.map((row, x) => row.map((cell, y) => {
         const wallsAround = getNumWallsAroundCell(chunk, x, y);
-        if (wallsAround > deathLimit) {
+        if (wallsAround < deathLimit) {
             return CellType.SPACE;
-        } else if(wallsAround < birthLimit) {
+        } else if(wallsAround > birthLimit) {
             return CellType.WALL;
         }
         return cell;
@@ -29,15 +29,14 @@ export function iterateChunk(chunk: GameChunk, birthLimit: number, deathLimit: n
 }
 
 function getNumWallsAroundCell(chunk: GameChunk, x: number, y: number) {
-    let numWalls = 0 ;
-    for (let x2 = x-1; x2 <= x+1; x2++) {
-        for (let y2 = y-1; y2 <= y+1; y2++) {
-            if (x2 < 0 || x2 >= chunk.length || y2 < 0 || y2 >= chunk.length) {
-                numWalls += 0.5;
-            } else if(chunk[x2][y2] === CellType.WALL) {
-                numWalls += 1;
-            }
+    const cords = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+
+    return cords.map(([dx, dy]) => {
+        const x2 = x+dx;
+        const y2 = y+dy;
+        if (x2 < 0 || x2 >= chunk.length || y2 < 0 || y2 >= chunk.length) {
+            return 0.5;
         }
-    }
-    return numWalls;
+        return chunk[x2][y2] === CellType.WALL ? 1 : 0;
+    }).reduce((agg: number, curr: number) => agg+curr, 0);
 }

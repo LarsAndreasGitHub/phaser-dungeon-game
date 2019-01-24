@@ -1,10 +1,11 @@
 import Phaser from 'phaser';
 import {GameScene} from "./GameScene";
 
-const config: GameConfig = {
+const config = {
     title: "Dungeon",
-    width: 800,
-    height: 800,
+    width: 16*50,
+    height: 16*50,
+    pixelArt: true,
     type: Phaser.AUTO,
     parent: "game",
     scene: [GameScene],
@@ -17,12 +18,6 @@ const config: GameConfig = {
     backgroundColor: "#000000"
 };
 
-export class Game extends Phaser.Game {
-    constructor(config: GameConfig) {
-        super(config);
-    }
-}
-
 window.onload = () => {
-    const game = new Game(config);
+    const game = new Phaser.Game(config);
 };

@@ -6,39 +6,56 @@ export class GameScene extends Scene {
     iteration: number;
     frame: number;
     chunk: GameChunk;
-    backgroundGraphics?: GameObjects.Graphics;
-    wallGraphics?: GameObjects.Graphics;
+    sprites?: GameObjects.Group;
 
     constructor() {
         super({
             key: "GameScene"
         });
-        this.maxIterations = 30;
+        this.maxIterations = 4;
         this.iteration = 0;
         this.frame = 0;
-        this.chunk = getInitialChunk(80, 0.6);
+        this.chunk = getInitialChunk(50, 0.40);
+    }
+
+    preload() {
+        this.load.spritesheet("sprites", "assets/character_and_tileset/Dungeon_Tileset.png", { frameWidth: 16, frameHeight: 16});
     }
 
     create() {
-        this.backgroundGraphics = this.add.graphics({ fillStyle: { color: 0x000000 } });
-        this.wallGraphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
-        this.backgroundGraphics.fillRectShape(new Phaser.Geom.Rectangle(0, 0, 800, 800));
+        this.sprites = this.add.group();
+    }
+
+    getSpriteNum(x: number, y: number): number {
+        if (this.chunk[x][y] === CellType.SPACE) {
+            return Math.floor(Math.random() * 4) + 6;
+        }
+        const wallAbove = y === 0 || this.chunk[x][y-1] === CellType.WALL;
+        const wallLeft = x === 0 || this.chunk[x-1][y] === CellType.WALL;
+        const wallBelow = y === this.chunk.length - 1 || this.chunk[x][y+1] === CellType.WALL;
+        const wallRight = x === this.chunk.length - 1 || this.chunk[x+1][y] === CellType.WALL;
+
+        if (wallAbove && wallLeft && wallBelow && wallRight) {
+            return 78;
+        }
+        return 2;
     }
 
     update(time: number, delta: number) {
-        if (this.frame++ % 30 !== 0 || this.iteration > this.maxIterations) {
+        if (this.frame++ % 100 !== 0 || this.iteration > this.maxIterations) {
             return;
         }
 
         this.iteration++;
-        this.wallGraphics!.clear();
+        this.sprites!.clear(true);
         for (let x=0; x<this.chunk.length; x++) {
             for (let y=0; y<this.chunk.length; y++) {
-                if (this.chunk[x][y] === CellType.WALL) {
-                    this.wallGraphics!.fillRectShape(new Phaser.Geom.Rectangle(x*10, y*10, 10, 10));
-                }
+                const spriteNum = this.getSpriteNum(x, y);
+                const sprite = this.add.sprite(x*16, y*16, "sprites", spriteNum);
+                sprite.setOrigin(0, 0);
+                this.sprites!.add(sprite);
             }
         }
-        this.chunk = iterateChunk(this.chunk, 4, 3);
+        this.chunk = iterateChunk(this.chunk, 3, 3);
     }
 }
