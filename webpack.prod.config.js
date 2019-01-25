@@ -10,7 +10,7 @@ module.exports = {
     mode: 'production',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/dist/',
+        publicPath: '/phaser-dungeon-game/dist/',
         filename: 'project.bundle.js'
     },
     module: {
