@@ -12,7 +12,7 @@ export class GameScene extends Scene {
         super({
             key: "GameScene"
         });
-        this.maxIterations = 4;
+        this.maxIterations = 6;
         this.iteration = 0;
         this.frame = 0;
         this.chunk = getInitialChunk(50, 0.40);
@@ -56,6 +56,6 @@ export class GameScene extends Scene {
                 this.sprites!.add(sprite);
             }
         }
-        this.chunk = iterateChunk(this.chunk, 3, 3);
+        this.chunk = iterateChunk(this.chunk, 3, 4);
     }
 }
