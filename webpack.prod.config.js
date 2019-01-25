@@ -2,14 +2,15 @@
 
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.ts',
-    mode: 'development',
-    devtool: 'inline-source-map',
+    mode: 'production',
     output: {
         path: path.resolve(__dirname, 'build'),
-        publicPath: '/build/',
+        publicPath: '/dist/',
         filename: 'project.bundle.js'
     },
     module: {
@@ -25,6 +26,10 @@ module.exports = {
         extensions: ['.ts', '.js']
     },
     plugins: [
+        new HtmlWebpackPlugin(),
+        new CopyWebpackPlugin([
+            { from: 'assets', to: 'assets' }
+        ]),
         new webpack.DefinePlugin({
             'CANVAS_RENDERER': JSON.stringify(true),
             'WEBGL_RENDERER': JSON.stringify(true)
