@@ -9,7 +9,7 @@ module.exports = {
     entry: './src/index.ts',
     mode: 'production',
     output: {
-        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/dist/',
         filename: 'project.bundle.js'
     },
