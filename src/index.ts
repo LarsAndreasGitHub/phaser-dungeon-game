@@ -1,14 +1,15 @@
 import Phaser from 'phaser';
-import {GameScene} from "./GameScene";
+import {LoadingScene} from "./LoadingScene";
 
 const config = {
     title: "Dungeon",
-    width: 16*50,
-    height: 16*50,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    autoResize: true,
     pixelArt: true,
     type: Phaser.AUTO,
     parent: "game",
-    scene: [GameScene],
+    scene: [LoadingScene],
     input: {
         keyboard: true,
         mouse: false,
