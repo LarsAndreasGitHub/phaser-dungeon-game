@@ -1,4 +1,6 @@
 import {GameObjects, Scene} from 'phaser';
+import { Board } from './Board';
+import { testAction } from './GameState';
 
 export class GameScene extends Scene {
     constructor() {
@@ -12,27 +14,42 @@ export class GameScene extends Scene {
     }
 
     create() {
-        const n = 6;
+        const n = 5;
         const length = 16*30;
 
         const graphics = this.add.graphics({
             x: 0,
             y: 0,
-             lineStyle: {
-                 width: 4,
-                 color: 0xffffff,
-                 alpha: 1
-             }
+            lineStyle: {
+                width: 4,
+                color: 0xffffff,
+                alpha: 1
+            }
         });
+
+        const graphicsCircle = this.add.graphics({
+            x: 0,
+            y: 0,
+            lineStyle: {
+                width: 4,
+                color: 0xff0000,
+                alpha: 1
+            },
+            fillStyle: {
+                color: 0xff0000,
+                alpha: 1
+            },
+        });
+
+        testAction();
 
         const step = length / n;
         for (let i=0; i<=n; i++) {
             graphics.strokeLineShape(new Phaser.Geom.Line(step*i, 0, step*i, length));
             graphics.strokeLineShape(new Phaser.Geom.Line(0, step*i, length, step*i));
-
         }
 
-        // graphics.strokeLineShape(new Phaser.Geom.Line(100, 100, 200, 200));
+        graphicsCircle.fillCircle(2.5*step, 2.5*step, step/2);
     }
 
 
