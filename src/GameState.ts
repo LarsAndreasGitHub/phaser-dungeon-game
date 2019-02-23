@@ -97,3 +97,19 @@ export const testAction = () => {
     const newState: GameState = singlePush(action, aGame);
     console.log(newState);
 }
+
+export const newGame = (): GameState => {
+    return {
+        board: {
+            length: 5,
+            height: 5,
+        },
+        turn: 'player1',
+        ball: {
+            position: {
+                x: 3,
+                y: 3,
+            }
+        }
+    };
+}

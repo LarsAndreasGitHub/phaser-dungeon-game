@@ -1,13 +1,19 @@
-import "phaser";
-import GameObject = Phaser.GameObjects.GameObject;
+export class Board extends Phaser.GameObjects.GameObject {
+    public dimension: number;
+    public length: number;
+    public stepLength: number;
 
-export class Board extends GameObject {
-    n: number;
-    length: number;
-
-    constructor(scene: Phaser.Scene, type: string, n: number, length: number) {
+    constructor(scene: Phaser.Scene, type: string, dimension: number, length: number) {
         super(scene, type);
-        this.n = n;
+        this.dimension = dimension;
         this.length = length;
+        this.stepLength = length / dimension;
+    }
+
+    public getPosition(indX: number, indY: number) {
+        return {
+            x:  (indX + 0.5) * this.stepLength,
+            y: (indY + 0.5) * this.stepLength,
+        }
     }
 }
