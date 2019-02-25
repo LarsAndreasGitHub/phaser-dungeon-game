@@ -18,7 +18,7 @@ enum ObjectType {
     ice,
 }
 
-enum Direction {
+export enum Direction {
     UP,
     DOWN,
     LEFT,
@@ -27,7 +27,7 @@ enum Direction {
 
 type Player = 'player1' | 'player2';
 
-interface Position {
+export interface Position {
     x: number;
     y: number;
 }
@@ -48,15 +48,15 @@ interface SinglePushAction {
     position: Position;
 }
 
-function singlePush(action: SinglePushAction, state: GameState) {
+export function singlePush(action: SinglePushAction, state: GameState) {
     const oldBall: Ball = state.ball;
     const direction = action.direction;
 
     let updatedBall = oldBall;
-    if ((direction === Direction.UP) && (oldBall.position.x === action.position.x)) updatedBall = move(oldBall, Direction.UP);
-    if ((direction === Direction.DOWN) && (oldBall.position.x === action.position.x)) updatedBall = move(oldBall, Direction.DOWN);
-    if ((direction === Direction.LEFT) && (oldBall.position.y === action.position.y)) updatedBall = move(oldBall, Direction.LEFT);
-    if ((direction === Direction.RIGHT) && (oldBall.position.y === action.position.y)) updatedBall = move(oldBall, Direction.RIGHT);
+    if ((direction === Direction.UP) && (oldBall.position.x === action.position.x) && (oldBall.position.y > 0)) updatedBall = move(oldBall, Direction.UP);
+    if ((direction === Direction.DOWN) && (oldBall.position.x === action.position.x) && (oldBall.position.y < state.board.length - 1)) updatedBall = move(oldBall, Direction.DOWN);
+    if ((direction === Direction.LEFT) && (oldBall.position.y === action.position.y) && (oldBall.position.x > 0)) updatedBall = move(oldBall, Direction.LEFT);
+    if ((direction === Direction.RIGHT) && (oldBall.position.y === action.position.y) && (oldBall.position.x < state.board.height - 1)) updatedBall = move(oldBall, Direction.RIGHT);
 
     return {...state, ball: updatedBall};
 }
@@ -65,8 +65,8 @@ function move(ball: Ball, direction: Direction): Ball {
     const newBall = {...ball};
     if (direction === Direction.UP) newBall.position.y -= 1;
     if (direction === Direction.DOWN) newBall.position.y += 1;
-    if (direction === Direction.LEFT) newBall.position.y -= 1;
-    if (direction === Direction.RIGHT) newBall.position.y += 1;
+    if (direction === Direction.LEFT) newBall.position.x -= 1;
+    if (direction === Direction.RIGHT) newBall.position.x += 1;
     return newBall;
 }
 
@@ -107,8 +107,8 @@ export const newGame = (): GameState => {
         turn: 'player1',
         ball: {
             position: {
-                x: 3,
-                y: 3,
+                x: 2,
+                y: 2,
             }
         }
     };

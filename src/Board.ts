@@ -1,3 +1,5 @@
+import { Position } from './GameState';
+
 export class Board extends Phaser.GameObjects.GameObject {
     public dimension: number;
     public length: number;
@@ -10,10 +12,19 @@ export class Board extends Phaser.GameObjects.GameObject {
         this.stepLength = length / dimension;
     }
 
+    /*
     public getPosition(indX: number, indY: number) {
         return {
-            x:  (indX + 0.5) * this.stepLength,
+            x: (indX + 0.5) * this.stepLength,
             y: (indY + 0.5) * this.stepLength,
+        }
+    }
+    */
+
+    public getPixelPosition(position: Position) {
+        return {
+            x: (position.x + 0.5) * this.stepLength,
+            y: (position.y + 0.5) * this.stepLength,
         }
     }
 }
