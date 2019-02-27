@@ -88,5 +88,6 @@ export class GameScene extends Scene {
 
     update() {
         this.setBallPosition();
+        this.updateTurnText();
     }
 }

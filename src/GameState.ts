@@ -1,21 +1,5 @@
-abstract class GameObject {
-    public type: ObjectType;
-    public position: Position;
-
-    protected constructor(type: ObjectType, position: Position) {
-        this.type = type;
-        this.position = position;
-    }
-}
-
 interface Ball {
     position: Position;
-}
-
-enum ObjectType {
-    ball,
-    wall,
-    ice,
 }
 
 export enum Direction {
@@ -39,7 +23,6 @@ export interface GameState {
     };
     turn: Player;
     ball: Ball;
-    // things: GameObject[];
 }
 
 interface SinglePushAction {
@@ -58,7 +41,13 @@ export function singlePush(action: SinglePushAction, state: GameState) {
     if ((direction === Direction.LEFT) && (oldBall.position.y === action.position.y) && (oldBall.position.x > 0)) updatedBall = move(oldBall, Direction.LEFT);
     if ((direction === Direction.RIGHT) && (oldBall.position.y === action.position.y) && (oldBall.position.x < state.board.height - 1)) updatedBall = move(oldBall, Direction.RIGHT);
 
-    return {...state, ball: updatedBall};
+    return {...switchTurn(state), ball: updatedBall};
+}
+
+export function switchTurn(state: GameState): GameState {
+    const newTurn: Player = state.turn === 'player1' ? 'player2' : 'player1';
+    console.log(newTurn, state.turn);
+    return {...state, turn: newTurn};
 }
 
 function move(ball: Ball, direction: Direction): Ball {
