@@ -73,9 +73,6 @@ export class GameScene extends Scene {
         return helloButton;
     }
 
-    move() {
-    }
-
     private setBallPosition() {
         const ballPosition = this.gameState.state.ball.position;
         const {x, y} = this.board.getPixelPosition(ballPosition);

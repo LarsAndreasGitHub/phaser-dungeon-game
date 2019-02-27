@@ -21,7 +21,6 @@ export function singlePush(action: SinglePushAction, state: GameState) {
 
 export function switchTurn(state: GameState): GameState {
     const newTurn: Player = state.turn === 'player1' ? 'player2' : 'player1';
-    console.log(newTurn, state.turn);
     return {...state, turn: newTurn};
 }
 
