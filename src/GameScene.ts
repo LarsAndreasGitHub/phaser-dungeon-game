@@ -23,9 +23,14 @@ export class GameScene extends Scene {
         this.board = new Board(this, "board", 5, 16*30);
         this.gameState = new GameStateObject(this, "gameState", newGame());
 
-        const graphics = this.add.graphics({
-            x: 0,
-            y: 0,
+        const gameWidth = this.sys.game.canvas.width;
+        const gameHeight = this.sys.game.canvas.height;
+        const xOffset = (gameWidth - this.board.length) / 2;
+        const yOffset = (gameHeight - this.board.length) / 2;
+
+        const graphicsLine = this.add.graphics({
+            x: xOffset,
+            y: yOffset,
             lineStyle: {
                 width: 4,
                 color: 0xffffff,
@@ -50,11 +55,11 @@ export class GameScene extends Scene {
         const step = this.board.stepLength;
         const length = this.board.length;
         for (let i=0; i<= this.board.dimension; i++) {
-            graphics.strokeLineShape(new Phaser.Geom.Line(step*i, 0, step*i, length));
-            graphics.strokeLineShape(new Phaser.Geom.Line(0, step*i, length, step*i));
+            graphicsLine.strokeLineShape(new Phaser.Geom.Line(step*i, 0, step*i, length));
+            graphicsLine.strokeLineShape(new Phaser.Geom.Line(0, step*i, length, step*i));
         }
 
-        this.turnText = this.add.text(200, 500, "", { fill: '#0f0' });
+        this.turnText = this.add.text(5, 5, "", { fill: '#0f0' });
         this.updateTurnText();
 
         this.createButton(5, 500, "right", () => this.gameState.moveBall(Direction.RIGHT));
@@ -74,9 +79,15 @@ export class GameScene extends Scene {
     }
 
     private setBallPosition() {
+        const gameWidth = this.sys.game.canvas.width;
+        const gameHeight = this.sys.game.canvas.height;
+        const xOffset = (gameWidth - this.board.length) / 2; // TODO: This is horrible
+        const yOffset = (gameHeight - this.board.length) / 2;
+
         const ballPosition = this.gameState.state.ball.position;
         const {x, y} = this.board.getPixelPosition(ballPosition);
-        this.ball.setPosition(x, y);
+        this.ball.setPosition(x + xOffset, y + yOffset);
+
     }
 
     private updateTurnText() {
