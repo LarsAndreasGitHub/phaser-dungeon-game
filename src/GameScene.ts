@@ -67,7 +67,7 @@ export class GameScene extends Scene {
         this.createButton(5, 600, "up", () => this.gameState.moveBall(Direction.UP));
         this.createButton(5, 650, "down", () => this.gameState.moveBall(Direction.DOWN));
 
-        this.ball = graphicsCircle.fillCircle(0, 0, step/2);
+        this.ball = graphicsCircle.fillCircle(0, 0, step/2 - 2);
         this.setBallPosition();
     }
 
@@ -95,6 +95,16 @@ export class GameScene extends Scene {
     }
 
     update() {
+        const gameWidth = this.sys.game.canvas.width;
+        const gameHeight = this.sys.game.canvas.height;
+        const xOffset = (gameWidth - this.board.length) / 2; // TODO: This is horrible
+        const yOffset = (gameHeight - this.board.length) / 2;
+
+        const mousePos = this.board.getIndexOfPixelPosition({
+            x: this.game.input.mousePointer.x - xOffset,
+            y: this.game.input.mousePointer.y - yOffset,
+        });
+        console.log(mousePos);
         this.setBallPosition();
         this.updateTurnText();
     }
