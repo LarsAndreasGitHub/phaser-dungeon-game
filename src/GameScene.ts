@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { Board } from './Board';
 import { GameStateObject } from './GameStateObject';
-import { Direction, newGame } from './GameState';
+import { Direction, newGame } from './GameState/GameState';
 
 export class GameScene extends Scene {
     constructor() {

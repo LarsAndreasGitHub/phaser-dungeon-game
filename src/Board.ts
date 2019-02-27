@@ -1,4 +1,4 @@
-import { Position } from './GameState';
+import { Position } from './GameState/GameState';
 
 export class Board extends Phaser.GameObjects.GameObject {
     public dimension: number;

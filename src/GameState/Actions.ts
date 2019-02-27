@@ -1,29 +1,4 @@
-interface Ball {
-    position: Position;
-}
-
-export enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-}
-
-type Player = 'player1' | 'player2';
-
-export interface Position {
-    x: number;
-    y: number;
-}
-
-export interface GameState {
-    board: {
-        length: number;
-        height: number;
-    };
-    turn: Player;
-    ball: Ball;
-}
+import { Ball, Direction, GameState, Player, Position } from './GameState';
 
 interface SinglePushAction {
     player: Player;
@@ -85,20 +60,4 @@ export const testAction = () => {
 
     const newState: GameState = singlePush(action, aGame);
     console.log(newState);
-}
-
-export const newGame = (): GameState => {
-    return {
-        board: {
-            length: 5,
-            height: 5,
-        },
-        turn: 'player1',
-        ball: {
-            position: {
-                x: 2,
-                y: 2,
-            }
-        }
-    };
 }

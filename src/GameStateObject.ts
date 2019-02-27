@@ -1,4 +1,5 @@
-import { Direction, GameState, Position, singlePush } from './GameState';
+import { Direction, GameState, Position} from './GameState/GameState';
+import { singlePush } from './GameState/Actions';
 
 export class GameStateObject extends Phaser.GameObjects.GameObject {
     public state: GameState;
