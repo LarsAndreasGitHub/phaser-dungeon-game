@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { Board } from './Board';
 import { GameStateObject } from './GameStateObject';
-import { Direction, newGame } from './GameState/GameState';
+import { Direction, newGame} from './GameState/GameState';
 
 export class GameScene extends Scene {
     constructor() {
@@ -16,21 +16,44 @@ export class GameScene extends Scene {
     private gameState: GameStateObject = {} as GameStateObject;
 
     preload() {
-        // this.load.spritesheet("sprites", "assets/character_and_tileset/Dungeon_Tileset.png", { frameWidth: 16, frameHeight: 16});
+        this.load.spritesheet("tileSprite", "assets/tile.png", { frameWidth: 96, frameHeight: 96});
     }
 
     create() {
-        this.board = new Board(this, "board", 5, 16*30);
+        this.board = new Board(this, "board", 5, 5*96);
         this.gameState = new GameStateObject(this, "gameState", newGame());
 
         const gameWidth = this.sys.game.canvas.width;
         const gameHeight = this.sys.game.canvas.height;
-        const xOffset = (gameWidth - this.board.length) / 2;
-        const yOffset = (gameHeight - this.board.length) / 2;
+
+        const dim = {
+            gameWidth: gameWidth,
+            gameHeight: gameHeight,
+            xOffset: (gameWidth - 5*96) / 2,
+            yOffset: (gameHeight - this.board.length) / 2,
+        };
+
+        const tileGroup: Phaser.GameObjects.Group = this.add.group({
+            classType: Phaser.GameObjects.Sprite,
+            defaultKey: 'tileSprite',
+            active: true,
+            maxSize: -1,
+            runChildUpdate: false,
+        });
+
+        for (let i=0; i<5; i++) {
+            for (let j=0; j<5; j++) {
+                const pos = this.board.getPixelPosition({x: i, y: j});
+                tileGroup.createMultiple([{ key: 'tileSprite', frame: 0, repeat: 4, setXY: {
+                    x: pos.x + dim.xOffset,
+                    y: pos.y + dim.yOffset
+                }}]);
+            }
+        }
 
         const graphicsLine = this.add.graphics({
-            x: xOffset,
-            y: yOffset,
+            x: dim.xOffset,
+            y: dim.yOffset,
             lineStyle: {
                 width: 4,
                 color: 0xffffff,
@@ -53,11 +76,13 @@ export class GameScene extends Scene {
         });
 
         const step = this.board.stepLength;
+        /*
         const length = this.board.length;
         for (let i=0; i<= this.board.dimension; i++) {
             graphicsLine.strokeLineShape(new Phaser.Geom.Line(step*i, 0, step*i, length));
             graphicsLine.strokeLineShape(new Phaser.Geom.Line(0, step*i, length, step*i));
         }
+        */
 
         this.turnText = this.add.text(5, 5, "", { fill: '#0f0' });
         this.updateTurnText();
