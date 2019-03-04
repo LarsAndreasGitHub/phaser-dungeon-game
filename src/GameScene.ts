@@ -20,18 +20,22 @@ export class GameScene extends Scene {
     }
 
     create() {
-        this.board = new Board(this, "board", 5, 5*96);
-        this.gameState = new GameStateObject(this, "gameState", newGame());
-
         const gameWidth = this.sys.game.canvas.width;
         const gameHeight = this.sys.game.canvas.height;
 
-        const dim = {
-            gameWidth: gameWidth,
-            gameHeight: gameHeight,
-            xOffset: (gameWidth - 5*96) / 2,
-            yOffset: (gameHeight - this.board.length) / 2,
-        };
+        const dimension = 5;
+        const tileSpriteLength = 96;
+        const boardLength = dimension*tileSpriteLength;
+
+        this.board = new Board(
+            this,
+            "board",
+            dimension,
+            boardLength,
+            {x: (gameWidth - boardLength) / 2, y: (gameHeight - boardLength) / 2}
+        );
+        this.gameState = new GameStateObject(this, "gameState", newGame());
+
 
         this.anims.create({
             key: 'normal',
@@ -52,19 +56,16 @@ export class GameScene extends Scene {
 
         for (let i=0; i<5; i++) {
             for (let j=0; j<5; j++) {
-                const pos = this.board.getPixelPosition({x: i, y: j});
-                tileGroup.createMultiple([{ key: 'tileSprite', frame: 0, setXY: {
-                    x: pos.x + dim.xOffset,
-                    y: pos.y + dim.yOffset
-                }}]);
+                tileGroup.createMultiple([{
+                    key: 'tileSprite',
+                    frame: 0,
+                    setXY: this.board.getPixelPosition({x: i, y: j})
+                }]);
             }
         }
 
         const tmpPos = this.board.getPixelPosition({x: 0, y: 0});
-        const child = tileGroup.get(
-            tmpPos.x + dim.xOffset,
-            tmpPos.y + dim.yOffset
-        );
+        const child = tileGroup.get(tmpPos.x, tmpPos.y);
         child.anims.play('selected');
 
         const graphicsCircle = this.add.graphics({
@@ -101,14 +102,9 @@ export class GameScene extends Scene {
     }
 
     private setBallPosition() {
-        const gameWidth = this.sys.game.canvas.width;
-        const gameHeight = this.sys.game.canvas.height;
-        const xOffset = (gameWidth - this.board.length) / 2; // TODO: This is horrible
-        const yOffset = (gameHeight - this.board.length) / 2;
-
         const ballPosition = this.gameState.state.ball.position;
         const {x, y} = this.board.getPixelPosition(ballPosition);
-        this.ball.setPosition(x + xOffset, y + yOffset);
+        this.ball.setPosition(x, y);
 
     }
 
@@ -117,14 +113,9 @@ export class GameScene extends Scene {
     }
 
     update() {
-        const gameWidth = this.sys.game.canvas.width;
-        const gameHeight = this.sys.game.canvas.height;
-        const xOffset = (gameWidth - this.board.length) / 2; // TODO: This is horrible
-        const yOffset = (gameHeight - this.board.length) / 2;
-
         const mousePos = this.board.getIndexOfPixelPosition({
-            x: this.game.input.mousePointer.x - xOffset,
-            y: this.game.input.mousePointer.y - yOffset,
+            x: this.game.input.mousePointer.x,
+            y: this.game.input.mousePointer.y,
         });
         this.setBallPosition();
         this.updateTurnText();
