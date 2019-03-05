@@ -52,4 +52,14 @@ export class Board extends Phaser.GameObjects.GameObject {
         }
         return position;
     }
+
+    public getAllPositions(): Position[] {
+        let positions: Position[] = [];
+        for (let x=0; x<this.dimension; x++) {
+            for (let y=0; y<this.dimension; y++) {
+                positions = [...positions, {x, y}]
+            }
+        }
+        return positions;
+    }
 }
