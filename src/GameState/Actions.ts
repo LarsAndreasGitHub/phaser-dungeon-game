@@ -11,7 +11,14 @@ interface SinglePushActionData {
     position: Position;
 }
 
-export function singlePush(action: SinglePushActionData, state: GameState) {
+export function addAction(action: Action, state: GameState): GameState {
+    return {
+        ...state,
+        actions: [...state.actions, action]
+    };
+}
+
+export function singlePush(action: SinglePushActionData, state: GameState): GameState {
     const oldBall: Ball = state.ball;
     const direction = action.direction;
 

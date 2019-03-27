@@ -73,10 +73,22 @@ export class GameScene extends Scene {
         this.turnText = this.add.text(5, 5, "", { fill: '#0f0' });
         this.updateTurnText();
 
-        this.createButton(5, 500, "right", () => this.gameState.moveBall(Direction.RIGHT));
-        this.createButton(5, 550, "left", () => this.gameState.moveBall(Direction.LEFT));
-        this.createButton(5, 600, "up", () => this.gameState.moveBall(Direction.UP));
-        this.createButton(5, 650, "down", () => this.gameState.moveBall(Direction.DOWN));
+        this.createButton(5, 500, "right", () => {
+            this.gameState.moveBall(Direction.RIGHT);
+            this.gameState.addAction({type: "move-right", data: {}});
+        });
+        this.createButton(5, 550, "left", () => {
+            this.gameState.moveBall(Direction.LEFT);
+            this.gameState.addAction({type: "move-left", data: {}});
+        });
+        this.createButton(5, 600, "up", () => {
+            this.gameState.moveBall(Direction.UP);
+            this.gameState.addAction({type: "move-up", data: {}});
+        });
+        this.createButton(5, 650, "down", () => {
+            this.gameState.moveBall(Direction.DOWN);
+            this.gameState.addAction({type: "move-down", data: {}});
+        });
 
         this.ball = this.add.sprite(0, 0, "ballSprite", 0);
         this.ball.setDepth(1);

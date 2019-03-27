@@ -1,5 +1,5 @@
 import { Direction, GameState, Position} from './GameState/GameState';
-import { singlePush } from './GameState/Actions';
+import { Action, addAction, singlePush } from './GameState/Actions';
 
 export class GameStateObject extends Phaser.GameObjects.GameObject {
     public state: GameState;
@@ -15,5 +15,9 @@ export class GameStateObject extends Phaser.GameObjects.GameObject {
             direction: direction,
             position: this.state.ball.position,
         }, this.state);
+    }
+
+    public addAction(action: Action) {
+        this.state = addAction(action, this.state);
     }
 }
