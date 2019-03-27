@@ -1,3 +1,5 @@
+import { Action } from './Actions';
+
 export interface Ball {
     position: Position;
 }
@@ -23,6 +25,7 @@ export interface GameState {
     };
     turn: Player;
     ball: Ball;
+    actions: Action[];
 }
 
 export const newGame = (): GameState => {
@@ -37,6 +40,7 @@ export const newGame = (): GameState => {
                 x: 2,
                 y: 2,
             }
-        }
+        },
+        actions: [],
     };
 }

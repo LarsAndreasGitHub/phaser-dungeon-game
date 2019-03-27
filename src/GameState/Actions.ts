@@ -1,12 +1,17 @@
 import { Ball, Direction, GameState, Player, Position } from './GameState';
 
-interface SinglePushAction {
+export interface Action {
+    type: string;
+    data: any;
+}
+
+interface SinglePushActionData {
     player: Player;
     direction: Direction;
     position: Position;
 }
 
-export function singlePush(action: SinglePushAction, state: GameState) {
+export function singlePush(action: SinglePushActionData, state: GameState) {
     const oldBall: Ball = state.ball;
     const direction = action.direction;
 
@@ -45,10 +50,11 @@ export const testAction = () => {
                 x: 3,
                 y: 3,
             }
-        }
+        },
+        actions: [],
     };
 
-    const action: SinglePushAction = {
+    const action: SinglePushActionData = {
         player: 'player1',
         direction: Direction.UP,
         position: {
@@ -58,5 +64,4 @@ export const testAction = () => {
     };
 
     const newState: GameState = singlePush(action, aGame);
-    console.log(newState);
 }
